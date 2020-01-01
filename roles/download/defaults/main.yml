@@ -394,8 +394,10 @@ addon_resizer_version: "1.8.3"
 addon_resizer_image_repo: "{{ kube_image_repo }}/addon-resizer"
 addon_resizer_image_tag: "{{ addon_resizer_version }}"
 
-dashboard_image_repo: "{{ gcr_image_repo }}/google_containers/kubernetes-dashboard-{{ image_arch }}"
-dashboard_image_tag: "v1.10.1"
+#dashboard_image_repo: "{{ gcr_image_repo }}/google_containers/kubernetes-dashboard-{{ image_arch }}"
+#dashboard_image_tag: "v1.10.1"
+dashboard_image_repo: "kubernetesui/dashboard"
+dashboard_image_tag: "v2.0.0-beta8"
 
 image_pull_command: "{{ docker_bin_dir }}/docker pull"
 image_info_command: "{{ docker_bin_dir }}/docker images -q | xargs {{ docker_bin_dir }}/docker inspect -f \"{{ '{{' }} if .RepoTags {{ '}}' }}{{ '{{' }} (index .RepoTags 0) {{ '}}' }}{{ '{{' }} end {{ '}}' }}{{ '{{' }} if .RepoDigests {{ '}}' }},{{ '{{' }} (index .RepoDigests 0) {{ '}}' }}{{ '{{' }} end {{ '}}' }}\" | tr '\n' ','"
