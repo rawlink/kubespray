@@ -169,12 +169,12 @@ in the form of dicts of key-value pairs of configuration parameters that will be
 
 ```yml
 kubelet_config_extra_args:
-  EvictionHard:
-    memory.available: "<100Mi"
-  EvictionSoftGracePeriod:
+  evictionHard:
+    memory.available: "100Mi"
+  evictionSoftGracePeriod:
     memory.available: "30s"
-  EvictionSoft:
-    memory.available: "<300Mi"
+  evictionSoft:
+    memory.available: "300Mi"
 ```
 
 The possible vars are:
@@ -182,7 +182,7 @@ The possible vars are:
 * *kubelet_config_extra_args*
 * *kubelet_node_config_extra_args*
 
-Previously, the same paramaters could be passed as flags to kubelet binary with the following vars:
+Previously, the same parameters could be passed as flags to kubelet binary with the following vars:
 
 * *kubelet_custom_flags*
 * *kubelet_node_custom_flags*

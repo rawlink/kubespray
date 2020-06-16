@@ -63,7 +63,7 @@
     - debug:
         var: nca_pod.stdout_lines
       failed_when: not nca_pod is success
-      run_once: true
+      when: inventory_hostname == groups['kube-master'][0]
 
     - name: Get netchecker agents
       uri:
@@ -170,7 +170,7 @@
             name: macvlan-conf
           spec:
             config: '{
-              "cniVersion": "0.3.0",
+              "cniVersion": "0.4.0",
               "type": "macvlan",
               "master": "eth0",
               "mode": "bridge",
@@ -188,7 +188,7 @@
           EOF
       when:
         - inventory_hostname == groups['kube-master'][0]
-        - kube_network_plugin_multus|default(false)
+        - kube_network_plugin_multus|default(false)|bool
 
     - name: Annotate pod with macvlan network
       # We cannot use only shell: below because Ansible will render the text
@@ -212,7 +212,7 @@
           EOF
       when:
         - inventory_hostname == groups['kube-master'][0]
-        - kube_network_plugin_multus|default(false)
+        - kube_network_plugin_multus|default(false)|bool
 
     - name: Check secondary macvlan interface
       shell: "{{ bin_dir }}/kubectl exec samplepod -- ip addr show dev net1"
@@ -222,4 +222,4 @@
       changed_when: false
       when:
         - inventory_hostname == groups['kube-master'][0]
-        - kube_network_plugin_multus|default(false)
+        - kube_network_plugin_multus|default(false)|bool

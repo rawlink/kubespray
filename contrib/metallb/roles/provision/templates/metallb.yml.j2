@@ -50,6 +50,9 @@ rules:
 - apiGroups: [""]
   resources: ["services", "endpoints", "nodes"]
   verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create"]
 {% if podsecuritypolicy_enabled %}
 - apiGroups: ["policy"]
   resourceNames: ["metallb"]
@@ -61,8 +64,8 @@ kind: PodSecurityPolicy
 metadata:
   name: metallb
   annotations:
-    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'docker/default'
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
+    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'runtime/default'
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
 {% if apparmor_enabled %}
     apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'
     apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'

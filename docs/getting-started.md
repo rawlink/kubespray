@@ -12,7 +12,7 @@ to create or modify an Ansible inventory. Currently, it is limited in
 functionality and is only used for configuring a basic Kubespray cluster inventory, but it does
 support creating inventory file for large clusters as well. It now supports
 separated ETCD and Kubernetes master roles from node role if the size exceeds a
-certain threshold. Run `python3 contrib/inventory_builder/inventory.py help` help for more information.
+certain threshold. Run `python3 contrib/inventory_builder/inventory.py help` for more information.
 
 Example inventory generator usage:
 
@@ -96,10 +96,10 @@ the Kubernetes [documentation](https://kubernetes.io/docs/tasks/access-applicati
 Supported version is kubernetes-dashboard v2.0.x :
 
 - Login options are : token/kubeconfig by default, basic can be enabled with `kube_basic_auth: true` inventory variable - not recommended because this requires ABAC api-server which is not tested by kubespray team
-- Deployed by default in "kube-system" namespace, can be overriden with `dashboard_namespace: kubernetes-dashboard` in inventory,
+- Deployed by default in "kube-system" namespace, can be overridden with `dashboard_namespace: kubernetes-dashboard` in inventory,
 - Only serves over https
 
-Access is described in [dashboard docs](https://github.com/kubernetes/dashboard/blob/master/docs/user/accessing-dashboard/1.7.x-and-above.md). With kubespray's default deployment in kube-system namespace, instead of kuberntes-dashboard :
+Access is described in [dashboard docs](https://github.com/kubernetes/dashboard/tree/master/docs/user/accessing-dashboard). With kubespray's default deployment in kube-system namespace, instead of kuberntes-dashboard :
 
 - Proxy URL is <http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#/login>
 - kubectl commands must be run with "-n kube-system"

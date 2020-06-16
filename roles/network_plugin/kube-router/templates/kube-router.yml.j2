@@ -33,7 +33,7 @@ spec:
       containers:
       - name: kube-router
         image: {{ kube_router_image_repo }}:{{ kube_router_image_tag }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: {{ k8s_image_pull_policy }}
         args:
         - --run-router={{ kube_router_run_router | bool }}
         - --run-firewall={{ kube_router_run_firewall | bool }}
@@ -112,9 +112,6 @@ spec:
 {% endif %}
       tolerations:
       - operator: Exists
-      # Mark pod as critical for rescheduling (Will have no effect starting with kubernetes 1.12)
-      - key: CriticalAddonsOnly
-        operator: "Exists"
       volumes:
 {% if kube_router_enable_dsr %}
       - name: docker-socket
