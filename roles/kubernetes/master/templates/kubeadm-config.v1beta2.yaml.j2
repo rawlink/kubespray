@@ -158,7 +158,7 @@ apiServer:
     encryption-provider-config: {{ kube_cert_dir }}/secrets_encryption.yaml
 {% endif %}
     storage-backend: {{ kube_apiserver_storage_backend }}
-{% if kube_api_runtime_config is defined %}
+{% if kube_api_runtime_config|length > 0 %}
     runtime-config: {{ kube_api_runtime_config | join(',') }}
 {% endif %}
     allow-privileged: "true"
@@ -168,6 +168,13 @@ apiServer:
     audit-log-maxbackup: "{{ audit_log_maxbackups }}"
     audit-log-maxsize: "{{ audit_log_maxsize }}"
     audit-policy-file: {{ audit_policy_file }}
+{% endif %}
+{% if kubernetes_audit_webhook %}
+    audit-webhook-config-file: {{ audit_webhook_config_file }}
+    audit-policy-file: {{ audit_policy_file }}
+    audit-webhook-mode: {{ audit_webhook_mode }}
+    audit-webhook-batch-max-size: "{{ audit_webhook_batch_max_size }}"
+    audit-webhook-batch-max-wait: "{{ audit_webhook_batch_max_wait }}"
 {% endif %}
 {% for key in kube_kubeadm_apiserver_extra_args %}
     {{ key }}: "{{ kube_kubeadm_apiserver_extra_args[key] }}"
@@ -211,7 +218,7 @@ apiServer:
     hostPath: {{ kube_config_dir }}/webhook-token-auth-config.yaml
     mountPath: {{ kube_config_dir }}/webhook-token-auth-config.yaml
 {% endif %}
-{% if kubernetes_audit %}
+{% if kubernetes_audit or kubernetes_audit_webhook %}
   - name: {{ audit_policy_name }}
     hostPath: {{ audit_policy_hostpath }}
     mountPath: {{ audit_policy_mountpath }}
@@ -351,6 +358,9 @@ ipvs:
   scheduler: {{ kube_proxy_scheduler }}
   syncPeriod: {{ kube_proxy_sync_period }}
   strictARP: {{ kube_proxy_strict_arp }}
+  tcpTimeout: {{ kube_proxy_tcp_timeout }}
+  tcpFinTimeout: {{ kube_proxy_tcp_fin_timeout }}
+  udpTimeout: {{ kube_proxy_udp_timeout }}
 metricsBindAddress: {{ kube_proxy_metrics_bind_address }}
 mode: {{ kube_proxy_mode }}
 nodePortAddresses: {{ kube_proxy_nodeport_addresses }}

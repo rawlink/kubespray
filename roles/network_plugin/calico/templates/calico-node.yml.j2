@@ -57,6 +57,8 @@ spec:
               name: host-local-net-dir
             - mountPath: /host/opt/cni/bin
               name: cni-bin-dir
+          securityContext:
+            privileged: true
 {% endif %}
         # This container installs the Calico CNI binaries
         # and CNI network config file on each node.
@@ -88,6 +90,8 @@ spec:
               name: cni-net-dir
             - mountPath: /host/opt/cni/bin
               name: cni-bin-dir
+          securityContext:
+            privileged: true
 {% endif %}
       containers:
 {% if calico_version is version('v3.3.0', '>=') and calico_version is version('v3.4.0', '<') %}
@@ -228,7 +232,7 @@ spec:
             # Set MTU for tunnel device used if ipip is enabled
 {% if calico_mtu is defined %}
             - name: FELIX_IPINIPMTU
-              value: "{{ calico_mtu }}"
+              value: "{{ calico_veth_mtu | default(calico_mtu) }}"
 {% endif %}
             - name: FELIX_CHAININSERTMODE
               value: "{{ calico_felix_chaininsertmode }}"
@@ -263,6 +267,12 @@ spec:
               value: "true"
             - name: FELIX_IGNORELOOSERPF
               value: "{{ calico_node_ignorelooserpf }}"
+{% if calico_node_extra_envs is defined %}
+{% for key in calico_node_extra_envs %}
+            - name: {{ key }}
+              value: "{{ calico_node_extra_envs[key] }}"
+{% endfor %}
+{% endif %}
           securityContext:
             privileged: true
           resources:

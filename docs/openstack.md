@@ -1,8 +1,25 @@
-OpenStack
-=========
 
-The in-tree cloud provider
---------------------------
+# OpenStack
+
+## Known compatible public clouds
+
+Kubespray has been tested on a number of OpenStack Public Clouds including (in alphabetical order):
+
+- [Auro](https://auro.io/)
+- [Betacloud](https://www.betacloud.io/)
+- [CityCloud](https://www.citycloud.com/)
+- [DreamHost](https://www.dreamhost.com/cloud/computing/)
+- [ELASTX](https://elastx.se/)
+- [EnterCloudSuite](https://www.entercloudsuite.com/)
+- [FugaCloud](https://fuga.cloud/)
+- [Open Telekom Cloud](https://cloud.telekom.de/) : requires to set the variable `wait_for_floatingip = "true"` in your cluster.tfvars
+- [OVHcloud](https://www.ovhcloud.com/)
+- [Rackspace](https://www.rackspace.com/)
+- [Ultimum](https://ultimum.io/)
+- [VexxHost](https://vexxhost.com/)
+- [Zetta](https://www.zetta.io/)
+
+## The in-tree cloud provider
 
 To deploy Kubespray on [OpenStack](https://www.openstack.org/) uncomment the `cloud_provider` option in `group_vars/all/all.yml` and set it to `openstack`.
 
@@ -62,8 +79,7 @@ If all the VMs in the tenant correspond to Kubespray deployment, you can "sweep 
 
 Now you can finally run the playbook.
 
-The external cloud provider
----------------------------
+## The external cloud provider
 
 The in-tree cloud provider is deprecated and will be removed in a future version of Kubernetes. The target release for removing all remaining in-tree cloud providers is set to 1.21.
 
@@ -106,6 +122,12 @@ The new cloud provider is configured to have Octavia by default in Kubespray.
   - ""
   external_openstack_network_public_networks:
   - ""
+  ```
+
+- You can override the default OpenStack metadata configuration (see [#6338](https://github.com/kubernetes-sigs/kubespray/issues/6338) for explanation):
+  
+  ```yaml
+  external_openstack_metadata_search_order: "configDrive,metadataService"
   ```
 
 - Run `source path/to/your/openstack-rc` to read your OpenStack credentials like `OS_AUTH_URL`, `OS_USERNAME`, `OS_PASSWORD`, etc. Those variables are used for accessing OpenStack from the external cloud provider.

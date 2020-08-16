@@ -26,7 +26,7 @@ local_path_provisioner_enabled: false
 # local_path_provisioner_claim_root: /opt/local-path-provisioner/
 # local_path_provisioner_debug: false
 # local_path_provisioner_image_repo: "rancher/local-path-provisioner"
-# local_path_provisioner_image_tag: "v0.0.2"
+# local_path_provisioner_image_tag: "v0.0.14"
 # local_path_provisioner_helper_image_repo: "busybox"
 # local_path_provisioner_helper_image_tag: "latest"
 
@@ -135,3 +135,11 @@ metallb_enabled: false
 #       - "10.5.1.50-10.5.1.99"
 #     protocol: "layer2"
 #     auto_assign: false
+# metallb_protocol: "bgp"
+# metallb_peers:
+#   - peer_address: 192.0.2.1
+#     peer_asn: 64512
+#     my_asn: 4200000000
+#   - peer_address: 192.0.2.2
+#     peer_asn: 64513
+#     my_asn: 4200000000
