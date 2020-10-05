@@ -38,6 +38,8 @@ variable "gfs_root_volume_size_in_gb" {}
 
 variable "gfs_volume_size_in_gb" {}
 
+variable "master_volume_type" {}
+
 variable "public_key_path" {}
 
 variable "image" {}
@@ -110,6 +112,10 @@ variable "supplementary_master_groups" {
 
 variable "supplementary_node_groups" {
   default = ""
+}
+
+variable "master_allowed_ports" {
+  type = list
 }
 
 variable "worker_allowed_ports" {

@@ -27,7 +27,7 @@
   * [vSphere](/docs/vsphere.md)
 * Operating Systems
   * [Debian](docs/debian.md)
-  * [Coreos](docs/coreos.md)
+  * [Flatcar Container Linux](docs/flatcar.md)
   * [Fedora CoreOS](docs/fcos.md)
   * [OpenSUSE](docs/opensuse.md)
 * Advanced
@@ -41,4 +41,5 @@
   * [Test cases](docs/test_cases.md)
   * [Vagrant](docs/vagrant.md)
   * [CI Matrix](docs/ci.md)
+  * [CI Setup](docs/ci-setup.md)
 * [Roadmap](docs/roadmap.md)

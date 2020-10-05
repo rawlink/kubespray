@@ -75,6 +75,7 @@ vagrant up
 - [Requirements](#requirements)
 - [Kubespray vs ...](docs/comparisons.md)
 - [Getting started](docs/getting-started.md)
+- [Setting up your first cluster](docs/setting-up-your-first-cluster.md)
 - [Ansible inventory and tags](docs/ansible.md)
 - [Integration with existing ansible repo](docs/integration.md)
 - [Deployment data variables](docs/vars.md)
@@ -82,7 +83,7 @@ vagrant up
 - [HA mode](docs/ha-mode.md)
 - [Network plugins](#network-plugins)
 - [Vagrant install](docs/vagrant.md)
-- [CoreOS bootstrap](docs/coreos.md)
+- [Flatcar Container Linux bootstrap](docs/flatcar.md)
 - [Fedora CoreOS bootstrap](docs/fcos.md)
 - [Debian Jessie setup](docs/debian.md)
 - [openSUSE setup](docs/opensuse.md)
@@ -101,7 +102,7 @@ vagrant up
 
 ## Supported Linux Distributions
 
-- **Container Linux by CoreOS**
+- **Flatcar Container Linux by Kinvolk**
 - **Debian** Buster, Jessie, Stretch, Wheezy
 - **Ubuntu** 16.04, 18.04, 20.04
 - **CentOS/RHEL** 7, 8 (experimental: see [centos 8 notes](docs/centos8.md))
@@ -115,36 +116,36 @@ Note: Upstart/SysV init based OS types are not supported.
 ## Supported Components
 
 - Core
-  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.18.6
+  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.19.2
   - [etcd](https://github.com/coreos/etcd) v3.4.3
   - [docker](https://www.docker.com/) v19.03 (see note)
-  - [containerd](https://containerd.io/) v1.2.13
+  - [containerd](https://containerd.io/) v1.3.7
   - [cri-o](http://cri-o.io/) v1.17 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
 - Network Plugin
-  - [cni-plugins](https://github.com/containernetworking/plugins) v0.8.6
-  - [calico](https://github.com/projectcalico/calico) v3.15.1
+  - [cni-plugins](https://github.com/containernetworking/plugins) v0.8.7
+  - [calico](https://github.com/projectcalico/calico) v3.16.1
   - [canal](https://github.com/projectcalico/canal) (given calico/flannel versions)
-  - [cilium](https://github.com/cilium/cilium) v1.8.1
+  - [cilium](https://github.com/cilium/cilium) v1.8.4
   - [contiv](https://github.com/contiv/install) v1.2.1
   - [flanneld](https://github.com/coreos/flannel) v0.12.0
   - [kube-ovn](https://github.com/alauda/kube-ovn) v1.3.0
   - [kube-router](https://github.com/cloudnativelabs/kube-router) v1.0.1
   - [multus](https://github.com/intel/multus-cni) v3.6.0
-  - [ovn4nfv](https://github.com/opnfv/ovn4nfv-k8s-plugin) v1.0.0
-  - [weave](https://github.com/weaveworks/weave) v2.6.5
+  - [ovn4nfv](https://github.com/opnfv/ovn4nfv-k8s-plugin) v1.1.0
+  - [weave](https://github.com/weaveworks/weave) v2.7.0
 - Application
   - [ambassador](https://github.com/datawire/ambassador): v1.5
   - [cephfs-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.0-k8s1.11
   - [rbd-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.1-k8s1.11
-  - [cert-manager](https://github.com/jetstack/cert-manager) v0.15.2
-  - [coredns](https://github.com/coredns/coredns) v1.6.7
-  - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v0.32.0
+  - [cert-manager](https://github.com/jetstack/cert-manager) v0.16.1
+  - [coredns](https://github.com/coredns/coredns) v1.7.0
+  - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v0.35.0
 
 Note: The list of validated [docker versions](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) is 1.13.1, 17.03, 17.06, 17.09, 18.06, 18.09 and 19.03. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).
 
 ## Requirements
 
-- **Minimum required version of Kubernetes is v1.16**
+- **Minimum required version of Kubernetes is v1.17**
 - **Ansible v2.9+, Jinja 2.11+ and python-netaddr is installed on the machine that will run Ansible commands**
 - The target servers must have **access to the Internet** in order to pull docker images. Otherwise, additional configuration is required (See [Offline Environment](docs/offline-environment.md))
 - The target servers are configured to allow **IPv4 forwarding**.

@@ -74,6 +74,10 @@ variable "gfs_volume_size_in_gb" {
   default = 75
 }
 
+variable "master_volume_type" {
+  default = "Default"
+}
+
 variable "public_key_path" {
   description = "The path of the ssh pub key"
   default     = "~/.ssh/id_rsa.pub"
@@ -198,6 +202,12 @@ variable "k8s_allowed_egress_ips" {
   description = "An array of CIDRs allowed for egress traffic"
   type        = list(string)
   default     = ["0.0.0.0/0"]
+}
+
+variable "master_allowed_ports" {
+  type = list
+
+  default = []
 }
 
 variable "worker_allowed_ports" {
