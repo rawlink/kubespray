@@ -15,7 +15,7 @@ is_fedora_coreos: false
 disable_swap: true
 
 ## Change this to use another Kubernetes version, e.g. a current beta release
-kube_version: v1.19.2
+kube_version: v1.19.3
 
 ## The minimum version working
 kube_version_min_required: v1.17.0
@@ -221,8 +221,12 @@ kube_profiling: false
 container_manager: docker
 
 # Enable Kata Containers as additional container runtime
-# When enabled, it requires container_manager=containerd
+# When enabled, it requires `container_manager` different than Docker
 kata_containers_enabled: false
+
+# Enable crun as additional container runtime
+# When enabled, it requires container_manager=crio
+crun_enabled: false
 
 # Container on localhost (download images when download_localhost is true)
 container_manager_on_localhost: "{{ container_manager }}"
@@ -314,7 +318,7 @@ k8s_image_pull_policy: IfNotPresent
 
 # Kubernetes dashboard
 # RBAC required. see docs/getting-started.md for access details.
-dashboard_enabled: true
+dashboard_enabled: false
 
 # Addons which can be enabled
 helm_enabled: false
@@ -421,11 +425,6 @@ local_volume_provisioner_storage_classes: |
 # you can use --extra-vars to pass the password in command line
 weave_password: EnterPasswordHere
 
-# Contiv L3 BGP Mode
-contiv_peer_with_uplink_leaf: false
-contiv_global_as: "65002"
-contiv_global_neighbor_as: "500"
-
 ssl_ca_dirs: |-
   [
   {% if ansible_os_family in ['Flatcar Container Linux by Kinvolk'] -%}
@@ -472,6 +471,9 @@ kube_apiserver_client_key: "{{ kube_cert_dir }}/ca.key"
 # Set to true to deploy etcd-events cluster
 etcd_events_cluster_enabled: false
 
+# etcd group can be empty when kubeadm manages etcd
+etcd_hosts: "{{ groups['etcd'] | default(groups['kube-master']) }}"
+
 # Vars for pointing to etcd endpoints
 is_etcd_master: "{{ inventory_hostname in groups['etcd'] }}"
 etcd_address: "{{ ip | default(fallback_ips[inventory_hostname]) }}"
@@ -482,12 +484,12 @@ etcd_client_url: "https://{{ etcd_access_address }}:2379"
 etcd_events_peer_url: "https://{{ etcd_events_access_address }}:2382"
 etcd_events_client_url: "https://{{ etcd_events_access_address }}:2381"
 etcd_access_addresses: |-
-  {% for item in groups['etcd'] -%}
+  {% for item in etcd_hosts -%}
     https://{{ hostvars[item]['access_ip'] | default(hostvars[item]['ip'] | default(fallback_ips[item])) }}:2379{% if not loop.last %},{% endif %}
   {%- endfor %}
 etcd_events_access_addresses_list: |-
   [
-  {% for item in groups['etcd'] -%}
+  {% for item in etcd_hosts -%}
     'https://{{ hostvars[item]['access_ip'] | default(hostvars[item]['ip'] | default(fallback_ips[item])) }}:2381'{% if not loop.last %},{% endif %}
   {%- endfor %}
   ]
@@ -531,3 +533,7 @@ host_architecture: >-
   {%- else -%}
   {{ ansible_architecture }}
   {%- endif -%}
+
+# Sets the eventRecordQPS parameter in kubelet-config.yaml. The default value is 5 (see types.go)
+# Setting it to 0 allows unlimited requests per second.
+kubelet_event_record_qps: 5
